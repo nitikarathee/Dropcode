@@ -1,0 +1,8 @@
+services:
+  - type: web
+    name: dropcode
+    runtime: node
+    plan: free
+    buildCommand: echo "nothing to build"
+    startCommand: node server.js
+    healthCheckPath: /healthz

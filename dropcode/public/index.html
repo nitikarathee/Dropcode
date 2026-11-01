@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Dropcode</title>
+  <meta name="description" content="Send files, photos and text between any two devices with a six-digit code. No sign-in, no install.">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#EDF0F5" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0C111D" media="(prefers-color-scheme: dark)">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&amp;display=swap">
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <header class="top">
+    <a class="brand" href="/" aria-label="Dropcode home">Dropcode</a>
+    <div id="status" class="status" data-mode="connecting" hidden aria-live="polite">
+      <span class="dot" aria-hidden="true"></span>
+      <span id="status-text">Connecting</span>
+    </div>
+  </header>
+
+  <main>
+    <!-- Home: pick a side of the ticket -->
+    <section id="view-home" class="view" aria-labelledby="home-title">
+      <h1 id="home-title" tabindex="-1">Move anything between two devices.</h1>
+      <p class="lede">Photos, files and text. No sign-in, nothing to install, nothing to pair ahead of time.</p>
+
+      <p id="notice" class="notice" role="status" hidden></p>
+
+      <div class="ticket" id="home-ticket">
+        <div class="half main">
+          <h2>Need a code?</h2>
+          <p>Get one here, then type it in on your other device.</p>
+          <button id="create-btn" class="btn primary" type="button">Get a code</button>
+          <p id="create-err" class="err" role="alert" hidden></p>
+        </div>
+        <div class="half stub">
+          <h2>Have a code?</h2>
+          <form id="join-form" autocomplete="off" novalidate>
+            <label class="sr" for="code-input">Six-digit code</label>
+            <input id="code-input" class="code-input" name="code" inputmode="numeric" pattern="[0-9 ]*" maxlength="7" placeholder="000 000" autocomplete="off" autocapitalize="off" spellcheck="false">
+            <button class="btn" type="submit" id="join-btn">Connect</button>
+          </form>
+          <p id="join-err" class="err" role="alert" hidden></p>
+        </div>
+      </div>
+
+      <ul class="facts">
+        <li>Files go straight from one device to the other whenever the network allows it.</li>
+        <li>Nothing is stored. When you close the page, it's gone.</li>
+        <li>Codes work once and expire after ten minutes.</li>
+      </ul>
+    </section>
+
+    <!-- Waiting: show the code -->
+    <section id="view-wait" class="view" aria-labelledby="wait-title" hidden>
+      <h1 id="wait-title" tabindex="-1" class="sr">Your code</h1>
+      <div class="ticket" id="wait-ticket">
+        <div class="half main">
+          <div class="code" id="code" role="img" aria-label="Your code"></div>
+        </div>
+        <div class="half stub">
+          <p>On your other device, open <strong id="site-name"></strong> and choose <em>Have a code</em>.</p>
+          <button id="copy-link" class="btn" type="button">Copy link</button>
+          <p class="expiry">Expires in <span id="expiry">10:00</span></p>
+        </div>
+      </div>
+      <p class="waiting" aria-live="polite">Waiting for the other device&hellip;</p>
+      <button id="cancel-btn" class="linkbtn" type="button">Cancel</button>
+    </section>
+
+    <!-- Live: transfer -->
+    <section id="view-live" class="view live" aria-labelledby="live-title" hidden>
+      <div class="live-head">
+        <h1 id="live-title" tabindex="-1">Send something</h1>
+        <button id="leave-btn" class="linkbtn" type="button">Disconnect</button>
+      </div>
+
+      <p id="ended" class="notice" role="status" hidden>
+        The other device disconnected. You can still save what you received.
+        <button id="restart-btn" class="linkbtn" type="button">Start over</button>
+      </p>
+
+      <div id="compose">
+        <label class="drop" id="drop" for="file-input">
+          <span class="drop-main">
+            <span class="fine">Drop files here, or choose them</span>
+            <span class="coarse">Choose photos and files</span>
+          </span>
+          <span class="drop-sub">You can also paste an image from your clipboard.</span>
+        </label>
+        <input id="file-input" type="file" multiple class="sr">
+
+        <form id="text-form" class="text-form">
+          <label class="sr" for="text-input">Text to send</label>
+          <textarea id="text-input" rows="3" placeholder="Type or paste text to send"></textarea>
+          <div class="text-actions">
+            <span class="hint">Press Ctrl+Enter to send</span>
+            <button class="btn primary" type="submit">Send text</button>
+          </div>
+        </form>
+      </div>
+
+      <h2 class="log-title">Sent and received</h2>
+      <p id="empty" class="empty">Nothing yet. Whatever you send or receive shows up here.</p>
+      <ol id="log" class="log"></ol>
+    </section>
+  </main>
+
+  <script src="/app.js"></script>
+</body>
+</html>
